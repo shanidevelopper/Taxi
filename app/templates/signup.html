@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+    <style>
+        /* بارگذاری فونت BHoma */
+        @font-face {
+            font-family: 'BHoma';
+            src: url('{{ url_for('static', filename='fonts/BHoma.ttf') }}') format('truetype');
+        }
+
+        /* استفاده از فونت BHoma برای قوانین پسورد */
+        .password-requirements {
+            font-family: 'BHoma', sans-serif;
+            color: #555;
+        }
+
+        .requirement {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .requirement.valid {
+            color: green;
+        }
+
+        .requirement.invalid {
+            color: red;
+        }
+    </style>
+    <script>
+        function previewImage(input, previewId) {
+            const file = input.files[0];
+            const preview = document.getElementById(previewId);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const confirmPasswordInput = document.querySelector('input[name="confirm-password"]');
+            const requirements = {
+                length: document.getElementById('length'),
+                uppercase: document.getElementById('uppercase'),
+                number: document.getElementById('number')
+            };
+
+            passwordInput.addEventListener('input', function() {
+                const value = passwordInput.value;
+                requirements.length.classList.toggle('valid', value.length >= 7);
+                requirements.uppercase.classList.toggle('valid', /[A-Z]/.test(value));
+                requirements.number.classList.toggle('valid', /\d/.test(value));
+            });
+
+            confirmPasswordInput.addEventListener('input', function() {
+                const passwordValue = passwordInput.value;
+                const confirmPasswordValue = confirmPasswordInput.value;
+                if (passwordValue !== confirmPasswordValue) {
+                    confirmPasswordInput.setCustomValidity('کلمه عبور و تکرار آن مطابقت ندارند');
+                } else {
+                    confirmPasswordInput.setCustomValidity('');
+                }
+            });
+
+            document.getElementById('signup-form').addEventListener('submit', function(event) {
+                const canvas = document.getElementById('signature-canvas');
+                document.getElementById('signature-data').value = canvas.toDataURL('image/png');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="signup-container glass-box">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگو">
+        </div>
+        <h1>ثبت‌نام</h1>
+
+        <div id="alert-container"></div>
+
+        <form id="signup-form" method="POST" action="{{ url_for('main.signup') }}" enctype="multipart/form-data">
+            <input type="text" name="first-name" placeholder="نام" required>
+            <input type="text" name="last-name" placeholder="نام خانوادگی" required>
+            <input type="password" name="password" placeholder="کلمه عبور" required>
+            <input type="password" name="confirm-password" placeholder="تکرار کلمه عبور" required>
+            
+            <div class="password-requirements">
+                <p class="requirement" id="length">پسورد حتما ۷ کاراکتر دارد</p>
+                <p class="requirement" id="uppercase">پسورد حتما یک حرف انگلیسی بزرگ دارد</p>
+                <p class="requirement" id="number">پسورد حتما در آن عدد دارد</p>
+            </div>
+            
+            <input type="text" name="national-id" placeholder="شماره ملی" required>
+            <input type="text" name="phone-number" placeholder="شماره تماس" required>
+            <input type="text" name="address" placeholder="آدرس دقیق محل سکونت" required>
+            <input type="text" name="car-type" placeholder="نوع خودرو" required>
+            <input type="text" name="car-model" placeholder="مدل خودرو" required>
+            <input type="text" name="car-number" placeholder="شماره شهربانی" required>
+
+            <label>اسکن عکس:</label>
+            <input type="file" name="user-photo" onchange="previewImage(this, 'photo-preview')" required>
+            <img id="photo-preview" style="display:none; width: 100px; height: auto;">
+
+            <label>اسکن کارت سبز:</label>
+            <input type="file" name="green-card" onchange="previewImage(this, 'green-card-preview')" required>
+            <img id="green-card-preview" style="display:none; width: 100px; height: auto;">
+
+            <label>ثبت امضا:</label>
+            <button type="button" id="open-signature-pad" class="upload-button">ثبت امضا</button>
+            <div id="signature-status" class="status">هنوز امضایی ثبت نشده</div>
+            <input type="hidden" name="signature-data" id="signature-data">
+            
+            <button type="submit">ثبت اطلاعات</button>
+            <button type="button" onclick="window.location.href='/'">لغو عملیات</button>
+        </form>
+    </div>
+    
+    <!-- Modal امضا -->
+    <div id="signature-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>  <!-- دکمه بستن -->
+            <canvas id="signature-canvas"></canvas>
+            <button id="save-signature">ذخیره</button>
+            <button id="clear-signature">دوباره</button>
+        </div>
+    </div>
+
+    <script src="static/js/signup.js"></script>
+</body>
+</html>
