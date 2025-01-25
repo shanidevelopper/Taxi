@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به حساب کاربری</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگو">
+        </div>
+        <h1>ورود به حساب کاربری</h1>
+        <form method="POST" action="/login">
+            <input type="text" id="username" name="username" placeholder="شماره ملی" required>
+            <input type="password" id="password" name="password" placeholder="رمز عبور" required>
+            <div class="remember-me-container">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label class="remember-me">ذخیره نام‌کاربری و رمز عبور</label>
+            </div>
+            <button type="submit">ورود</button>
+            <p><a href="#">آیا کلمه عبور خود را فراموش کرده‌اید؟</a></p>
+        </form>
+        <hr>
+        <p>آیا تا کنون ثبت نام نکرده‌اید؟ <a href="/signup">ثبت‌نام</a></p>
+    </div>
+    <script>
+        // بازیابی اطلاعات ذخیره‌شده
+        window.onload = function() {
+            const savedUsername = localStorage.getItem('username');
+            const savedPassword = localStorage.getItem('password');
+            if (savedUsername && savedPassword) {
+                document.getElementById('username').value = savedUsername;
+                document.getElementById('password').value = savedPassword;
+                document.getElementById('remember-me').checked = true;
+            }
+        };
+
+        // ذخیره اطلاعات در LocalStorage
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function() {
+            const rememberMe = document.getElementById('remember-me').checked;
+            if (rememberMe) {
+                localStorage.setItem('username', document.getElementById('username').value);
+                localStorage.setItem('password', document.getElementById('password').value);
+            } else {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+            }
+        });
+    </script>
+</body>
+</html>

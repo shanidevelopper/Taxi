@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت‌نام موفق</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="signup-container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگو">
+        </div>
+        <h1>ثبت‌نام موفقیت‌آمیز</h1>
+        <div id="alert-container">
+            <div class="alert alert-success">
+                <p>کاربر عزیز، اطلاعات حساب شما دریافت شد و جهت تایید به مدیر ارسال گردید.</p>
+                <p>لطفا تا تایید نهایی شکیبا باشید.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

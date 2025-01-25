@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#d4af37">
+  <meta name="description" content="داشبورد مدیریت PWA">
+  <title>پروفایل مدیریت</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+</head>
+
+<body>
+  <div class="header glass-effect">
+    <img src="{{ url_for('static', filename='images/profile.png') }}" alt="پروفایل" class="icon-right" onclick="toggleSidebar()">
+    <img src="{{ url_for('static', filename='images/menu.png') }}" alt="منو" class="icon-left">
+  </div>
+
+  <div class="main-title">داشبورد مدیریت</div>
+
+  <div class="menu-container">
+    {% set admin_menu_items = [
+        {"name": "کاربران", "image": "21.jpg", "url": "main.manage_users"},
+        {"name": "پیام ها", "image": "22.jpg", "url": "#"},
+        {"name": "امور مالی", "image": "23.jpg", "url": "#"},
+        {"name": "بایگانی", "image": "24.jpg", "url": "#"},
+        {"name": "وام", "image": "25.jpg", "url": "#"},
+        {"name": "کلوپ کاربران", "image": "26.jpg", "url": "#"},
+        {"name": "همکاری ها", "image": "27.jpg", "url": "#"},
+        {"name": "مجوزات", "image": "28.jpg", "url": "#"},
+        {"name": "نمایشگاه", "image": "29.jpg", "url": "#"}
+    ] %}
+
+    {% for item in admin_menu_items %}
+        <div class="menu-item glass-effect">
+            <a href="{{ url_for(item.url) }}">
+                <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}" class="menu-icon">
+                <span class="menu-text">{{ item.name }}</span>
+            </a>
+            {% if item.name == "کاربران" and pending_requests_count > 0 %}
+                <span class="notification-badge">{{ pending_requests_count }}</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+
+  <div class="footer">
+    <div class="marquee">
+      <div class="marquee-content">
+        مدیر محترم؛ به پنل مدیریتی شرکت تاکسی رانی کلانشهر رشت خوش آمدید |
+        شما میتوانید با انتخاب آیکون های مختلف به بخش های مختلف دسترسی پیدا کنید |
+        حتما از بخش پروفایل رمز ورود پیش فرض را عوض نمایید
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+  <div id="sidebar" class="sidebar">
+    <img src="{{ url_for('static', filename=photo_path) }}" alt="پروفایل" class="profile-photo">
+    <h3>{{ user_fullname }}</h3>
+    <p>کد ملی: {{ national_id }}</p>
+    <p>سمت: {{ position }}</p>
+    <div class="section-divider"></div>
+
+    <div class="sidebar-links">
+      <a href="{{ url_for('main.add_manager') }}" class="sidebar-link">افزودن مدیر</a>
+      <a href="{{ url_for('main.edit_manager', manager_id=national_id) }}" class="sidebar-link">ویرایش</a>
+      <a href="{{ url_for('main.delete_manager', manager_id=national_id) }}" class="sidebar-link">حذف</a>
+      <a href="#" class="sidebar-link" onclick="logout()">خروج</a>
+    </div>
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگوی برنامه" class="sidebar-logo">
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    function closeSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+    }
+
+    function logout() {
+      window.location.href = '/login';
+    }
+  </script>
+
+  <h1>درخواست‌های عضویت</h1>
+  <table>
+    <tr>
+      <th>نام</th>
+      <th>نام خانوادگی</th>
+      <th>شماره ملی</th>
+      <th>عکس</th>
+      <th>کارت سبز</th>
+      <th>امضا</th>
+      <th>تایید</th>
+      <th>رد</th>
+    </tr>
+    {% for request in pending_requests %}
+    <tr>
+      <td>{{ request.first_name }}</td>
+      <td>{{ request.last_name }}</td>
+      <td>{{ request.national_id }}</td>
+      <td><img src="{{ url_for('static', filename=request.photo_path) }}" width="50"></td>
+      <td><img src="{{ url_for('static', filename=request.green_card_path) }}" width="50"></td>
+      <td><img src="{{ url_for('static', filename=request.signature_path) }}" width="50"></td>
+      <td>
+        <form method="POST" action="{{ url_for('main.approve_request', request_id=request.id, manager_id=session['user_id']) }}">
+          <button type="submit">تایید</button>
+        </form>
+      </td>
+      <td>
+        <form method="POST" action="{{ url_for('main.reject_request', request_id=request.id) }}">
+          <button type="submit" class="reject">رد</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

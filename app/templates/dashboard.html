@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#40e0d0">
+    <meta name="description" content="داشبورد پروفایل کاربری PWA">
+    <title>پروفایل کاربری</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+</head>
+<body>
+    <!-- هدر -->
+    <div class="header glass-effect">
+        <!-- آیکون پروفایل -->
+        <img src="{{ url_for('static', filename='images/profile.png') }}" alt="پروفایل" class="icon-profile" onclick="toggleSidebar()">
+        <!-- آیکون منو -->
+        <img src="{{ url_for('static', filename='images/menu.png') }}" alt="منو" class="icon-menu">
+    </div>
+
+    <!-- پلاک -->
+    <div class="plate-container">
+        <img src="{{ url_for('static', filename='images/plak.png') }}" alt="پلاک تاکسی" class="plak">
+        <div class="plate-text">
+            <span class="plate-right">{{ car_number[2:] }}</span>
+            <span class="plate-middle">ت</span>
+            <span class="plate-left">{{ car_number[:2] }}</span>
+        </div>
+    </div>
+
+    <!-- منو -->
+    <div class="menu-container">
+        {% for item in menu_items %}
+        <div class="menu-item glass-effect">
+            <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}" class="menu-icon">
+            <span class="menu-text">{{ item.name }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- فوتر -->
+    <div class="footer">
+        <div class="marquee">
+            <div class="marquee-content">
+                کاربر عزیز؛ به پنل کاربری خوش آمدید |
+                شما با انتخاب گزینه های مختلف میتوانید به بخش های مختلف دسترسی پیدا کنید
+            </div>
+        </div>
+    </div>
+
+    <!-- لایه شفاف برای بستن منو -->
+    <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+
+    <!-- سایدبار -->
+    <div id="sidebar" class="sidebar">
+        <!-- عکس پروفایل و اطلاعات کاربر -->
+        <img src="{{ user_photo }}" alt="پروفایل کاربر" class="profile-photo">
+        <h3>{{ user_fullname }}</h3>
+        <p>{{ national_id }}</p>
+        <div class="section-divider"></div> <!-- خط جداکننده -->
+
+        <!-- اطلاعات خودرو -->
+        <div class="sidebar-details">
+            <p>نام خودرو: {{ car_name }}</p>
+            <p>مدل خودرو: {{ car_model }}</p>
+            <p>شماره تماس: {{ phone_number }}</p>
+        </div>
+        <div class="section-divider"></div> <!-- خط جداکننده -->
+
+        <!-- لینک‌ها -->
+        <div class="sidebar-links">
+            <a href="#" class="sidebar-link">صندوق پیام‌ها</a>
+            <a href="#" class="sidebar-link">سوابق</a>
+            <a href="#" class="sidebar-link" onclick="contactAdmin()">ارتباط با ادمین</a>
+            <a href="#" class="sidebar-link" onclick="logout()">خروج</a>
+        </div>
+
+        <!-- لوگوی برنامه -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگوی برنامه" class="sidebar-logo">
+    </div>
+
+    <!-- جاوااسکریپت -->
+    <script>
+        // باز و بسته کردن سایدبار
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // بستن سایدبار
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        // خروج از سیستم
+        function logout() {
+            window.location.href = '/login';
+        }
+
+        // ارتباط با ادمین
+        function contactAdmin() {
+            alert('در حال اتصال به ادمین...');
+        }
+    </script>
+</body>
+</html>

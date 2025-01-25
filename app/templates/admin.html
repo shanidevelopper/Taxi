@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#d4af37">
+    <meta name="description" content="داشبورد مدیریت PWA">
+    <title>پروفایل مدیریت</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dash.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+</head>
+<body>
+    <!-- هدر -->
+    <div class="header glass-effect">
+        <!-- آیکون پروفایل -->
+        <img src="{{ url_for('static', filename='images/profile.png') }}" alt="پروفایل" class="icon-right" onclick="toggleSidebar()">
+
+        <!-- آیکون منو -->
+        <img src="{{ url_for('static', filename='images/menu.png') }}" alt="منو" class="icon-left">
+    </div>
+
+    <!-- تیتر اصلی -->
+    <div class="main-title">
+        داشبورد مدیریت
+    </div>
+
+    <!-- منو -->
+    <div class="menu-container">
+        {% set admin_menu_items = [
+            {"name": "کاربران", "image": "21.jpg"},
+            {"name": "پیام ها", "image": "22.jpg"},
+            {"name": "امور مالی", "image": "23.jpg"},
+            {"name": "بایگانی", "image": "24.jpg"},
+            {"name": "وام", "image": "25.jpg"},
+            {"name": "کلوپ کاربران", "image": "26.jpg"},
+            {"name": "همکاری ها", "image": "27.jpg"},
+            {"name": "مجوزات", "image": "28.jpg"},
+            {"name": "نمایشگاه", "image": "29.jpg"}
+        ] %}
+        {% for item in admin_menu_items %}
+        <div class="menu-item glass-effect">
+            <img src="{{ url_for('static', filename='images/' + item.image) }}" alt="{{ item.name }}" class="menu-icon">
+            <span class="menu-text">{{ item.name }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- فوتر -->
+    <div class="footer">
+        <div class="marquee">
+            <div class="marquee-content">
+            مدیر محترم؛ به پنل مدیریتی شرکت تاکسی رانی کلانشهر رشت خوش آمدید | 
+            شما میتوانید با انتخاب آیکون های مختلف به بخش های مختلف دسترسی پیدا کنید | 
+            حتما از بخش پروفایل رمز ورود پیش فرض را عوض نمایید
+            </div>
+        </div>
+    </div>
+    
+    <!-- منوی سایدبار -->
+    <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+    <div id="sidebar" class="sidebar">
+        <!-- عکس پروفایل و اطلاعات کاربر -->
+        <img src="{{ photo_path }}" alt="پروفایل" class="profile-photo">
+        <h3>{{ user_fullname }}</h3>
+        <p>کد ملی: {{ national_id }}</p>
+        <p>شماره پرسنلی: {{ employee_number }}</p>
+        <p>سمت: {{ position }}</p>
+        <div class="section-divider"></div>
+
+        <!-- لینک‌ها -->
+        <div class="sidebar-links">
+            <a href="{{ url_for('add_manager') }}" class="sidebar-link">افزودن مدیر</a>
+            <a href="{{ url_for('edit_manager') }}" class="sidebar-link">ویرایش مدیران</a>
+            <a href="{{ url_for('delete_manager') }}" class="sidebar-link">حذف مدیران</a>
+            <a href="#" class="sidebar-link" onclick="logout()">خروج</a>
+        </div>
+
+        <!-- لوگوی برنامه -->
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگوی برنامه" class="sidebar-logo">
+    </div>
+
+    <!-- جاوااسکریپت -->
+    <script>
+        // باز و بسته کردن سایدبار
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // بستن سایدبار
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        // خروج از سیستم
+        function logout() {
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

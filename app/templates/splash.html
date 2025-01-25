@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه آغازین</title>
+    <style>
+        @font-face {
+            font-family: 'BHoma';
+            src: url('{{ url_for('static', filename='fonts/BHoma.ttf') }}') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FFC107; /* رنگ زرد خوش‌رنگ تاکسی */
+            font-family: 'BHoma', Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: growAndHeartbeat 3s ease-in-out; /* انیمیشن ورود و تپش */
+        }
+
+        .logo img {
+            width: 150px;
+        }
+
+        .text {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-family: 'BHoma', Arial, sans-serif;
+            color: black; /* رنگ مشکی */
+            text-shadow: 2px 2px 4px silver; /* سایه نقره‌ای */
+            animation: fadeInText 2s ease-in-out 1.5s; /* نمایش با تأخیر */
+        }
+
+        /* انیمیشن لوگو: از کوچک به بزرگ و سپس تپیدن */
+        @keyframes growAndHeartbeat {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            70% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* انیمیشن متن: ظاهر شدن با تأخیر */
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="لوگو">
+        </div>
+        <div class="text">به اپلیکیشن تاکسیرانی رشت خوش آمدید</div>
+    </div>
+    <script>
+        // هدایت خودکار به صفحه Login بعد از 5 ثانیه
+        setTimeout(function() {
+            window.location.href = "/login";
+        }, 5000);
+    </script>
+</body>
+</html>
