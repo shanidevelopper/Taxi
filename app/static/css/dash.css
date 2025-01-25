@@ -1,0 +1,303 @@
+/* Fonts */
+@font-face {
+    font-family: 'BYekan';
+    src: url('/static/fonts/BYekan.ttf') format('truetype');
+}
+
+/* تنظیمات کلی */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'BYekan', Tahoma, Arial, sans-serif;
+    background: linear-gradient(to bottom, #c0c0c0, #40e0d0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+/* هدر */
+.header {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.icon-profile {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.icon-menu {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+/* تیتر اصلی */
+.main-title {
+    margin-top: 80px;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* منو */
+.menu-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 15px;
+    width: calc(100% - 30px);
+    max-width: 600px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.menu-item {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 5px;
+}
+
+.menu-item span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* فوتر */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    padding: 10px 0;
+    z-index: 10;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* استایل اصلی اسلایدبار */
+.sidebar {
+    background: linear-gradient(to bottom, #40e0d0, #c0c0c0); /* گرادینت فیروزه‌ای به نقره‌ای */
+    backdrop-filter: blur(6px); /* کاهش مقدار بلور */
+    width: 70%; /* عرض مناسب برای اسلایدبار */
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: -100%; /* مخفی‌سازی پیش‌فرض */
+    z-index: 100;
+    transition: right 0.3s ease-in-out; /* انیمیشن باز و بسته شدن */
+    padding: 20px 15px; /* فاصله داخلی مناسب */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar.open {
+    right: 0; /* اسلایدبار باز شده */
+}
+
+/* عکس پروفایل */
+.profile-photo {
+    width: 140px; /* بزرگ‌تر شدن عکس */
+    height: 140px;
+    border-radius: 50%; /* گرد شدن کامل */
+    margin-top: 30px; /* فاصله بیشتر از بالا */
+    margin-bottom: 15px;
+    object-fit: cover; /* نمایش درست تصویر */
+}
+
+/* بخش‌های مختلف */
+.sidebar-section {
+    width: 100%;
+    margin: 20px 0; /* فاصله بین بخش‌ها */
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4); /* خط جداکننده */
+    text-align: center; /* متن وسط‌چین */
+}
+
+.sidebar-section:last-child {
+    border-bottom: none; /* حذف خط آخر */
+}
+
+/* متن‌ها */
+.sidebar h3,
+.sidebar p {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.sidebar-details p {
+    margin: 10px 0; /* فاصله مناسب بین اطلاعات */
+    text-align: center;
+    font-size: 1rem; /* اندازه مناسب متن */
+    color: #333; /* رنگ پیش‌فرض متن */
+}
+
+/* لینک‌ها */
+.sidebar-link {
+    font-size: 1rem; /* اندازه مناسب لینک */
+    color: #007bff; /* رنگ لینک */
+    text-decoration: none; /* حذف خط زیر لینک */
+    padding: 10px 0; /* فاصله داخلی لینک */
+    display: block; /* هر لینک در یک خط */
+    transition: color 0.3s ease;
+}
+
+.sidebar-link:hover {
+    color: #0056b3; /* تغییر رنگ در حالت هاور */
+    text-decoration: underline; /* اضافه شدن خط زیر متن در هاور */
+}
+
+/* خط جداکننده */
+.section-divider {
+    width: 90%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.4); /* رنگ خط */
+    margin: 15px 0; /* فاصله بالا و پایین خط */
+}
+
+/* تنظیم لوگو */
+.sidebar-logo {
+    margin-top: auto; /* قرارگیری در انتهای اسلایدبار */
+    margin-bottom: 40px; /* فاصله مناسب از پایین */
+    width: 80px; /* اندازه مناسب لوگو */
+    height: auto;
+    object-fit: contain; /* حفظ تناسب لوگو */
+}
+
+
+/* لایه شفاف برای بستن منو */
+.overlay {
+    display: none; /* پیش‌فرض مخفی است */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* پس‌زمینه نیمه شفاف */
+    z-index: 99; /* زیر منوی اسلاید */
+}
+
+.overlay.active {
+    display: block; /* در حالت فعال نمایش داده شود */
+}
+
+.marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+    font-family: 'BYekan', Tahoma, Arial, sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+
+/* آیکون‌های هدر */
+.icon-profile {
+    width: 30px;
+    height: 30px;
+    margin-right: 40px; /* فاصله مناسب از سمت راست */
+    cursor: pointer;
+}
+
+.icon-menu {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+/* موقعیت و استایل پلاک */
+.plate-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    margin-top: 80px;
+    position: relative;
+}
+
+.plak {
+    width: 250px;
+    height: auto;
+}
+
+.plate-text {
+    position: absolute;
+    top: 55%; /* متن کمی پایین‌تر */
+    left: 46%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'BYekan', Tahoma, Arial, sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+}
+
+.plate-right {
+    margin-right: 10px; /* فاصله بین حرف و اعداد */
+}
+
+.plate-middle {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.plate-left {
+    margin-left: 10px;
+}
